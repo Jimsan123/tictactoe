@@ -1,5 +1,6 @@
 import pygame
-from board import Board
+from board import Board, Mark
+
 
 def main():
     # Init Pygame
@@ -11,6 +12,8 @@ def main():
     mainScreen = pygame.display.set_mode(game_board.board_size)
     pygame.display.set_caption("Tic Tac Toe")
     game_board.draw_board(mainScreen)
+
+    game_board.markCell(800, 150, Mark.X)
 
     # Main game loop
     running = True
