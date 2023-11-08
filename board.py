@@ -27,33 +27,18 @@ class Board():
         # [( (0, 300), (300, 600)), ((300, 300), (600, 600)), ((600, 300), (900, 600))],
         # [( (0, 600), (300, 900)), ((300, 600), (600, 900)), ((600, 600), (900, 900))]]
         # Starts horizontally with the x row
-        self.cells: list[list[Cell]] = [[Cell((i * self.cell_size, j * self.cell_size), ((i+1) * self.cell_size, (j+1) * self.cell_size))
-                       for i in range(num_cells)] for j in range(num_cells)]
+        self.cells: list[list[Cell]] = \
+            [[Cell((i * self.cell_size, j * self.cell_size), ((i+1) * self.cell_size, (j+1) * self.cell_size))
+            for i in range(num_cells)] for j in range(num_cells)]
 
 
 
-    def markCell(self, xCoordinate: int, yCoordinate: int, mark: Mark):
-
+    def markCell(self, xCoordinate: int, yCoordinate: int, mark: Mark) -> None:
         # Find the cell to mark
         for rows in self.cells:
             for cell in rows:
-                print(f"is x: {xCoordinate} and y: {yCoordinate} in: ")
-                print("Cell in loop: ", cell.topLeft)
-                print("Cell in loop: ", cell.botRight)
-                print("Cell in loop: ", cell.mark)
-
-
-                if xCoordinate >= cell.topLeft[0]:
-                    print("1 yes")
-                if xCoordinate < cell.botRight[0]:
-                    print("2 yes")
-                if yCoordinate >= cell.topLeft[1]: # TODO: find why marking on 800, 150 doesent trigger this, but prints "found"...
-                    print("3 yes")
-                if yCoordinate < cell.botRight[1]:
-                    print("4 yes")
-
-                if (xCoordinate >= cell.topLeft[0] & xCoordinate < cell.botRight[0] & # [0] will is the X pos
-                    yCoordinate >= cell.topLeft[1] & yCoordinate < cell.botRight[1]): # [1] will is the Y pos
+                if (xCoordinate >= cell.topLeft[0] and xCoordinate < cell.botRight[0] and # [0] will is the X pos
+                    yCoordinate >= cell.topLeft[1] and yCoordinate < cell.botRight[1]): # [1] will is the Y pos
                     cell.mark = mark
                     print("found")
                     return
@@ -61,7 +46,7 @@ class Board():
 
 
     # Function to draw a Tic-Tac-Toe board of a given size
-    def draw_board(self, screen: pygame.Surface):
+    def draw_board(self, screen: pygame.Surface) -> None:
         whiteColor = (255, 255, 255)
         blackColor = (0, 0, 0)
 
