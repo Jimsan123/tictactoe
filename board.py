@@ -40,10 +40,13 @@ class Board():
                 if (xCoordinate >= cell.topLeft[0] and xCoordinate < cell.botRight[0] and # [0] will is the X pos
                     yCoordinate >= cell.topLeft[1] and yCoordinate < cell.botRight[1]): # [1] will is the Y pos
                     cell.mark = mark
-                    print("found")
+                    print("Marking cell: ", cell.topLeft, " " , cell.botRight, " ", mark)
                     return
 
-
+    def drawCell(self, screen:pygame.Surface, cell: Cell) -> None:
+        # TODO: draw the cell using its own proprerties
+        # Chek if it has a mark, if not, don't draw
+        pass
 
     # Function to draw a Tic-Tac-Toe board of a given size
     def draw_board(self, screen: pygame.Surface) -> None:

@@ -1,7 +1,6 @@
 import pygame
 from board import Board, Mark
 
-
 def main():
     # Init Pygame
     pygame.init()
@@ -13,8 +12,6 @@ def main():
     pygame.display.set_caption("Tic Tac Toe")
     game_board.draw_board(mainScreen)
 
-    game_board.markCell(800, 150, Mark.X)
-
     # Main game loop
     running = True
 
@@ -25,10 +22,11 @@ def main():
             elif event.type == pygame.K_q:
                 running = False
 
-            # elif event.type == pygame.MOUSEBUTTONDOWN:
-            #     if event.button == 1:
-            #         pos = pygame.mouse.get_pos()
-            #         print(f"Click at {pos}")
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    pos = pygame.mouse.get_pos()
+                    print(f"Click at {pos}")
+                    game_board.markCell(pos[0], pos[1], Mark.X)
 
             pygame.display.update()
 
