@@ -15,6 +15,9 @@ def main():
     # Main game loop
     running = True
 
+    # temp
+    nextMark: Mark = Mark.X
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -25,8 +28,12 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    print(f"Click at {pos}")
-                    game_board.markCell(pos[0], pos[1], Mark.X)
+                    game_board.markCell(mainScreen, pos[0], pos[1], nextMark)
+                    if nextMark == Mark.X:
+                        nextMark = Mark.O
+                    else:
+                        nextMark = Mark.X
+
 
             pygame.display.update()
 
