@@ -85,8 +85,4 @@ class Board():
             x = col * self.cell_size
             pygame.draw.line(screen, whiteColor, (x, 0), (x, min(self.board_size) - 0), self.line_width)
 
-        # # Test to see self.cells
-        # for horizontallCells in self.cells:
-        #     for cell in horizontallCells:
-        #         pygame.draw.rect(screen, (255, 0, 0), cell, 5)
 
