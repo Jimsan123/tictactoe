@@ -30,8 +30,10 @@ def main():
                     pos = pygame.mouse.get_pos()
                     # game.board.markCell(mainScreen, pos[0], pos[1], nextMark)
 
-                    game.makeMove(pos[0], pos[1])
-
+                    winningPlayer: Mark = game.makeMove(pos[0], pos[1])
+                    if winningPlayer != Mark.unknown:
+                        print(f"Player {winningPlayer.name} has won!!!")
+                        running = False
 
             pygame.display.update()
 
