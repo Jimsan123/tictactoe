@@ -9,18 +9,15 @@ class Game():
         self.current_player: Mark = Mark.X
         self.screen: pygame.Surface = mainScreen
 
-    def makeMove(self, xCoordinate: int, yCoordinate: int) -> Mark:
-        self.board.markCell(self.screen, xCoordinate, yCoordinate, self.current_player)
+    # Return
+    def makeMove(self, xCoordinate: int, yCoordinate: int) -> bool:
+        return self.board.markCell(self.screen, xCoordinate, yCoordinate, self.current_player)
 
-        if self.hasPlayerWon(self.current_player):
-            return self.current_player
-
+    def swapPlayer(self) -> None:
         if self.current_player == Mark.X:
             self.current_player = Mark.O
         else:
             self.current_player = Mark.X
-
-        return Mark.unknown
 
     def Start(self):
         self.board.draw_board(self.screen)
@@ -32,9 +29,16 @@ class Game():
 
         for i in range(self.board.num_cells):
             # Check rows
-            if all(self.board.cells[i][j].mark == playerMark for j in range(self.board.num_cells)):
-                print("Won on rows")
-                return True
+            print("here i: ", i)
+            winCount: int = 0
+            for j in range(self.board.num_cells):
+                print("here j: ", j)
+                if self.board.cells[i][j].mark == playerMark:
+                    print("winCount: ", winCount)
+                    winCount += 1
+                    if winCount == 5:
+                        print("Won on rows")
+                        return True
 
             # Check columns
             if all(self.board.cells[j][i].mark == playerMark for j in range(self.board.num_cells)):

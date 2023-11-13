@@ -12,7 +12,7 @@ def main():
     # Init stuff
     pygame.display.set_caption("Tic Tac Toe")
     mainScreen = pygame.display.set_mode((900, 900))
-    game = Game(mainScreen, Board((900, 900), 3))
+    game = Game(mainScreen, Board((900, 900), 5))
     game.Start()
 
     # Main game loop
@@ -30,10 +30,12 @@ def main():
                     pos = pygame.mouse.get_pos()
                     # game.board.markCell(mainScreen, pos[0], pos[1], nextMark)
 
-                    winningPlayer: Mark = game.makeMove(pos[0], pos[1])
-                    if winningPlayer != Mark.unknown:
-                        print(f"Player {winningPlayer.name} has won!!!")
-                        running = False
+                    if game.makeMove(pos[0], pos[1]): # if the move is legal
+                        if game.hasPlayerWon(game.current_player):
+                            print(f"Player {game.current_player} has won!")
+                            running = False
+
+                        game.swapPlayer()
 
             pygame.display.update()
 
