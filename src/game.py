@@ -4,10 +4,11 @@ from board import Board, Mark
 
 
 class Game():
-    def __init__(self, mainScreen: pygame.Surface, board: Board) -> None:
+    def __init__(self, mainScreen: pygame.Surface, board: Board, in_row_to_win: int) -> None:
         self.board = board
         self.current_player: Mark = Mark.X
         self.screen: pygame.Surface = mainScreen
+        self.in_row_to_win: int = in_row_to_win
 
     # Return
     def makeMove(self, xCoordinate: int, yCoordinate: int) -> bool:
@@ -27,30 +28,60 @@ class Game():
         if playerMark == Mark.unknown:
             assert "Cannot see if won, mark is unknown"
 
+        # Check rows and columns
         for i in range(self.board.num_cells):
             # Check rows
-            print("here i: ", i)
             winCount: int = 0
             for j in range(self.board.num_cells):
-                print("here j: ", j)
                 if self.board.cells[i][j].mark == playerMark:
-                    print("winCount: ", winCount)
                     winCount += 1
-                    if winCount == 5:
+                    if winCount == self.in_row_to_win:
                         print("Won on rows")
                         return True
 
             # Check columns
-            if all(self.board.cells[j][i].mark == playerMark for j in range(self.board.num_cells)):
-                print("Won on columns")
-                return True
+            winCount: int = 0
+            for j in range(self.board.num_cells):
+                if self.board.cells[j][i].mark == playerMark:
+                    winCount += 1
+                    if winCount == self.in_row_to_win:
+                        print("Win on columns")
+                        return True
 
         # Check diagonals
-        if all(self.board.cells[i][i].mark == playerMark for i in range(self.board.num_cells)) or \
-            all(self.board.cells[i][(self.board.num_cells - 1) - i].mark == playerMark for i in range(self.board.num_cells)):
-            print("Won on diagonals")
-            return True
+
+        # Function to check a single diagonal
+            def check_diagonal(start_row, start_col, row_increment, col_increment):
+                winCount = 0
+                row, col = start_row, start_col
+                while 0 <= row < self.board.num_cells and 0 <= col < self.board.num_cells:
+                    if self.board.cells[row][col].mark == playerMark:
+                        winCount += 1
+                        if winCount == self.in_row_to_win:
+                            return True
+                    else:
+                        winCount = 0  # reset count if sequence is broken
+
+                    row += row_increment
+                    col += col_increment
+
+                return False
+
+            # Check all diagonals from top left to bottom right
+            for start_row in range(self.board.num_cells - self.in_row_to_win + 1):
+                for start_col in range(self.board.num_cells - self.in_row_to_win + 1):
+                    if check_diagonal(start_row, start_col, 1, 1):
+                        print("Won on a diagonal from top left to bottom right")
+                        return True
+
+            # Check all diagonals from top right to bottom left
+            for start_row in range(self.board.num_cells - self.in_row_to_win + 1):
+                for start_col in range(self.in_row_to_win - 1, self.board.num_cells):
+                    if check_diagonal(start_row, start_col, 1, -1):
+                        print("Won on a diagonal from top right to bottom left")
+                        return True
+
+        # End diagonal check
+
 
         return False
-
-

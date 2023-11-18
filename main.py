@@ -2,7 +2,7 @@ import pygame
 import sys
 sys.path.append("src")
 
-from board import Board, Mark
+from board import Board
 from game import Game
 
 def main():
@@ -12,7 +12,7 @@ def main():
     # Init stuff
     pygame.display.set_caption("Tic Tac Toe")
     mainScreen = pygame.display.set_mode((900, 900))
-    game = Game(mainScreen, Board((900, 900), 5))
+    game = Game(mainScreen, Board((900, 900), 5), 3)
     game.Start()
 
     # Main game loop
