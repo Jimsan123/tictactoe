@@ -98,26 +98,19 @@ class Board():
             x = col * self.cell_size
             pygame.draw.line(screen, whiteColor, (x, 0), (x, min(self.board_size) - 0), self.line_width)
 
-    def get_board_state(self):
-        # def board_to_string(board):
+    def get_board_state(self) -> str:
         board_string = ""
         row_counter = 0
+
+        # Print top row of numbers. Columns numbers
+        board_string = "  " + "".join(str(i) + " " for i in range(self.num_cells)) + "\n"
+        # Print all row values, numbering them and separating them with |
         for row in self.cells:
             board_string += str(row_counter)
             row_counter += 1
-            for j, cell in enumerate(row): # Loop 1 more than rows and add j if it is the first in rows or col?
+            for cell in row:
                 board_string += "|"
-                board_string += mark_to_string(cell.mark) if cell.isMarked else " "  # Add a space for empty cells
-            board_string += "|\n"  # New line at the end of each row
+                board_string += mark_to_string(cell.mark) if cell.isMarked else " "
+            board_string += "|\n"
         return board_string
-
-    # Example usage:
-    # Assuming your board is something like this:
-    # board = [
-    #     [Cell(0, 0, 'X'), Cell(0, 1, 'O'), Cell(0, 2, 'X')],
-    #     [Cell(1, 0, ''), Cell(1, 1, 'X'), Cell(1, 2, '')],
-    #     [Cell(2, 0, 'O'), Cell(2, 1, ''), Cell(2, 2, 'O')]
-    # ]
-    # print(board_to_string(board))
-
 
