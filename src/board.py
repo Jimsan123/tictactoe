@@ -2,12 +2,21 @@ import pygame
 from enum import Enum
 
 class Mark(Enum):
-    unknown = 0
+    empty = 0
     O = 1
     X = 2
 
+def mark_to_string(mark: Mark):
+    if (mark == Mark.empty):
+        return " "
+    elif (mark == Mark.O):
+        return "O"
+    elif (mark == Mark.X):
+        return "X"
+
 class Cell():
-    def __init__(self, topLeft: tuple[int, int], botRight: tuple[int, int], mark: Mark = Mark.unknown) -> None:
+    def __init__(self, topLeft: tuple[int, int], botRight: tuple[int, int],
+                 mark: Mark = Mark.empty) -> None:
         self.topLeft: tuple[int, int] = topLeft
         self.botRight: tuple[int, int] = botRight
         self.topRight: tuple[int, int] = (botRight[0], topLeft[1])
@@ -19,7 +28,7 @@ class Cell():
               \nBot left: {self.botLeft}, Bot right: {self.botRight}")
 
     def isMarked(self) -> bool:
-        return self.mark != Mark.unknown
+        return self.mark != Mark.empty
 
 class Board():
     def __init__(self, screen_size: tuple[int, int], num_cells: int) -> None:
@@ -55,7 +64,7 @@ class Board():
                     return True
 
     def drawCell(self, screen:pygame.Surface, cell: Cell) -> None:
-        if cell.mark == Mark.unknown:
+        if cell.mark == Mark.empty:
             assert "Cannot draw cell with undefined mark"
 
         whiteColor = (255, 255, 255)
@@ -88,5 +97,27 @@ class Board():
         for col in range(1, self.num_cells):
             x = col * self.cell_size
             pygame.draw.line(screen, whiteColor, (x, 0), (x, min(self.board_size) - 0), self.line_width)
+
+    def get_board_state(self):
+        # def board_to_string(board):
+        board_string = ""
+        row_counter = 0
+        for row in self.cells:
+            board_string += str(row_counter)
+            row_counter += 1
+            for j, cell in enumerate(row): # Loop 1 more than rows and add j if it is the first in rows or col?
+                board_string += "|"
+                board_string += mark_to_string(cell.mark) if cell.isMarked else " "  # Add a space for empty cells
+            board_string += "|\n"  # New line at the end of each row
+        return board_string
+
+    # Example usage:
+    # Assuming your board is something like this:
+    # board = [
+    #     [Cell(0, 0, 'X'), Cell(0, 1, 'O'), Cell(0, 2, 'X')],
+    #     [Cell(1, 0, ''), Cell(1, 1, 'X'), Cell(1, 2, '')],
+    #     [Cell(2, 0, 'O'), Cell(2, 1, ''), Cell(2, 2, 'O')]
+    # ]
+    # print(board_to_string(board))
 
 

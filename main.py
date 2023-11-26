@@ -31,6 +31,7 @@ def main():
                     # game.board.markCell(mainScreen, pos[0], pos[1], nextMark)
 
                     if game.makeMove(pos[0], pos[1]): # if the move is legal
+                        print(game.board.get_board_state())
                         if game.hasPlayerWon(game.current_player):
                             print(f"Player {game.current_player} has won!")
                             running = False

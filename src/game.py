@@ -24,7 +24,7 @@ class Game():
 
     def hasPlayerWon(self, playerMark: Mark) -> bool:
 
-        if playerMark == Mark.unknown:
+        if playerMark == Mark.empty:
             assert "Cannot see if won, mark is unknown"
 
         # Check rows and columns
@@ -37,6 +37,8 @@ class Game():
                     if winCount == self.in_row_to_win:
                         print("Won on rows")
                         return True
+                else:
+                    winCount = 0
 
             # Check columns
             winCount: int = 0
@@ -46,6 +48,8 @@ class Game():
                     if winCount == self.in_row_to_win:
                         print("Win on columns")
                         return True
+                else:
+                    winCount = 0
 
         # Check diagonals
 
