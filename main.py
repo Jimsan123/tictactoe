@@ -1,9 +1,10 @@
-import pygame
 import sys
+import pygame
 sys.path.append("src")
 
 from board import Board
 from game import Game
+from gpt_interface import Gpt
 
 def main():
     # Init Pygame
@@ -11,14 +12,23 @@ def main():
 
     # Init stuff
     pygame.display.set_caption("Tic Tac Toe")
-    mainScreen = pygame.display.set_mode((900, 900))
-    game = Game(mainScreen, Board((900, 900), 5), 3)
+    main_screen = pygame.display.set_mode((900, 900))
+    game = Game(main_screen, Board((900, 900), 5), 3)
+
+    model: Gpt = Gpt()
+
     game.Start()
+
+
 
     # Main game loop
     running = True
 
     while running:
+
+        # TODO: create a statemachine that swappes betwwen the model and the player :D
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
