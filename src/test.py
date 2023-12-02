@@ -28,4 +28,4 @@ in_row_to_win: int = 3
 result = instance.apiCall(board_state=board_state, board_size=board_size,
                           num_in_row_to_win=in_row_to_win, playerMark=Mark.X, gptMark=Mark.O)
 
-print("Gpt response: '",result, "'")
+print("Gpt response: ", result,)

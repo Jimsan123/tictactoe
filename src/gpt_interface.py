@@ -1,15 +1,19 @@
 from openai import OpenAI
 from board import Mark
-import ast
+import re
 
 class Gpt():
     def __init__(self) -> None:
         self.client: OpenAI = OpenAI()
 
-    def apiCall(self, board_state: str, board_size: int, num_in_row_to_win: int, playerMark: Mark, gptMark: Mark) -> tuple[int, int] | None:
+    def apiCall(self, board_state: str, board_size: int, num_in_row_to_win: int,
+                playerMark: Mark, gptMark: Mark) -> tuple[int, int] | None:
 
-        content_system: str = """You are playing TicTacToe against a user. You shal try to play as perfectly as possible.
-        You can only answer in the flollowing format "(X,Y)", where the X and Y are the coordinates of the board placement"""
+        content_system: str = """You are playing TicTacToe against a user. You shal try to play as perfectly as possible and always
+        make a move within the board.
+        You can only answer in the flollowing format "(X,Y)", where the X and Y are the coordinates of the board placement.
+        The X and Y shal be integers
+        """
         content_user: str = f"""
         I am {playerMark}, you are {gptMark}. It is your move. The board is {board_size}x{board_size} in size.
         One needs {num_in_row_to_win} in row to win. This is the current game/board state: \n {board_state} \n
@@ -24,11 +28,31 @@ class Gpt():
             ]
         )
 
-        # response = completion.choices[0]
+        def parseCoordinates(text: str) -> list:
+            pattern = r"\(([^,]+),([^)]+)\)"
+            matches = re.findall(pattern, text)
+            coordinates = []
+            for match in matches:
+                x, y = match
+                coordinates.append((x.strip(), y.strip()))  # Stripping to remove any extra whitespace
+            return coordinates
+
+        if completion.choices[0].message.content == None:
+            return None
+
+        gpt_str = str(parseCoordinates(completion.choices[0].message.content)[0])
+
+        # Removing parentheses and spaces
+        cleaned_str = gpt_str.strip("() ").split(", ")
+
+        # Converting each value to an integer
+        values = [int(val.strip("'")) for val in cleaned_str]
+
+        output: tuple[int, int] = (int(values[0]), int(values[1]))
 
         # Literal['stop', 'length', 'tool_calls', 'content_filter', 'function_call']
         if completion.choices[0].finish_reason == "stop":
-            return ast.literal_eval(str(completion.choices[0].message)) # Ok
+            return output # Ok
         elif completion.choices[0].finish_reason == "length":
             print("Error model response: 'length'")
             return None
@@ -42,6 +66,8 @@ class Gpt():
             print("Error model response: 'tool_calls'")
             return None
         return None
+
+
 
 
 

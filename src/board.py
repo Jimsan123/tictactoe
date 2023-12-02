@@ -56,12 +56,16 @@ class Board():
                 if (xCoordinate >= cell.topLeft[0] and xCoordinate < cell.botRight[0] and # [0] will is the X pos
                     yCoordinate >= cell.topLeft[1] and yCoordinate < cell.botRight[1]): # [1] will is the Y pos
                     if cell.isMarked():
+                        print("Already marked")
                         return False
                     cell.mark = mark
                     # cell.printCorners()
                     print("Mark:", mark)
                     self.drawCell(screen, cell)
                     return True
+
+        print("Error: did not find cell to mark")
+        return False
 
     def drawCell(self, screen:pygame.Surface, cell: Cell) -> None:
         if cell.mark == Mark.empty:
@@ -75,9 +79,9 @@ class Board():
 
         # Draw a circle
         if cell.mark == Mark.O:
-            circleCenterX: int = (cell.topLeft[0] + cell.botRight[0]) / 2
-            circleCenterY: int = (cell.topLeft[1] + cell.botRight[1]) / 2
-            circelRadius: int = (cell.botRight[0] - cell.topLeft[0]) / 2
+            circleCenterX: int = int((cell.topLeft[0] + cell.botRight[0]) / 2)
+            circleCenterY: int = int((cell.topLeft[1] + cell.botRight[1]) / 2)
+            circelRadius: int = int((cell.botRight[0] - cell.topLeft[0]) / 2)
             pygame.draw.circle(screen, whiteColor, (circleCenterX, circleCenterY), circelRadius, self.line_width)
 
     # Function to draw a Tic-Tac-Toe board of a given size

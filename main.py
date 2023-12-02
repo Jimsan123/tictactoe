@@ -1,10 +1,16 @@
 import sys
 import pygame
+from enum import Enum
 sys.path.append("src")
 
-from board import Board
+from board import Board, Mark
 from game import Game
 from gpt_interface import Gpt
+
+class CurrentPlayerState(Enum):
+    none = 0
+    player = 1
+    bot = 2
 
 def main():
     # Init Pygame
@@ -16,6 +22,7 @@ def main():
     game = Game(main_screen, Board((900, 900), 5), 3)
 
     model: Gpt = Gpt()
+    current_player: CurrentPlayerState = CurrentPlayerState.player
 
     game.Start()
 
@@ -25,29 +32,43 @@ def main():
     running = True
 
     while running:
+        if current_player == CurrentPlayerState.bot:
+            print("bots turn")
+            model_move = model.apiCall(game.board.get_board_state(), game.board.num_cells,
+                                       game.in_row_to_win, Mark.X, Mark.O)
+            print("response from model: ", model_move)
 
-        # TODO: create a statemachine that swappes betwwen the model and the player :D
+            if model_move != None and game.makeMove(model_move[0], model_move[1]):
+                print(game.board.get_board_state())
+                if game.hasPlayerWon(game.current_player):
+                    print(f"Player {game.current_player} has won!")
+                    running = False
+            else:
+                print("Invalid move from bot")
 
+            game.swapPlayer()
+            current_player = CurrentPlayerState.player
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.K_q:
-                running = False
+        elif current_player == CurrentPlayerState.player:
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    pos = pygame.mouse.get_pos()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
 
-                    if game.makeMove(pos[0], pos[1]):
-                        print(game.board.get_board_state())
-                        if game.hasPlayerWon(game.current_player):
-                            print(f"Player {game.current_player} has won!")
-                            running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        pos = pygame.mouse.get_pos()
 
-                        game.swapPlayer()
+                        if game.makeMove(pos[0], pos[1]):
+                            print(game.board.get_board_state())
+                            if game.hasPlayerWon(game.current_player):
+                                print(f"Player {game.current_player} has won!")
+                                running = False
 
-            pygame.display.update()
+                            game.swapPlayer()
+                            current_player = CurrentPlayerState.bot
+
+                pygame.display.update()
 
     pygame.quit()
 
