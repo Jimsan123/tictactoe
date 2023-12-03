@@ -9,9 +9,11 @@ class Game():
         self.screen: pygame.Surface = mainScreen
         self.in_row_to_win: int = in_row_to_win
 
-    # Return
-    def makeMove(self, xCoordinate: int, yCoordinate: int) -> bool:
-        return self.board.markCell(self.screen, xCoordinate, yCoordinate, self.current_player)
+    def makeMovePixelValues(self, xCoordinate: int, yCoordinate: int) -> bool:
+        return self.board.markCellCoordinates(self.screen, xCoordinate, yCoordinate, self.current_player)
+    
+    def makeMoveCellValues(self, x_cell: int, y_cell: int) -> bool:
+        # return self.board.markCell(self.screen, xCoordinate, yCoordinate, self.current_player)
 
     def swapPlayer(self) -> None:
         if self.current_player == Mark.X:

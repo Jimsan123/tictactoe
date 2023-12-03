@@ -38,7 +38,7 @@ def main():
                                        game.in_row_to_win, Mark.X, Mark.O)
             print("response from model: ", model_move)
 
-            if model_move != None and game.makeMove(model_move[0], model_move[1]):
+            if model_move != None and game.makeMovePixelValues(model_move[0], model_move[1]):
                 print(game.board.get_board_state())
                 if game.hasPlayerWon(game.current_player):
                     print(f"Player {game.current_player} has won!")
@@ -59,7 +59,10 @@ def main():
                     if event.button == 1:
                         pos = pygame.mouse.get_pos()
 
-                        if game.makeMove(pos[0], pos[1]):
+                        print("player clicked: ", pos)
+
+
+                        if game.makeMovePixelValues(pos[0], pos[1]):
                             print(game.board.get_board_state())
                             if game.hasPlayerWon(game.current_player):
                                 print(f"Player {game.current_player} has won!")
