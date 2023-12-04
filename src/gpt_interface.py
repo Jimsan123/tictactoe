@@ -9,10 +9,11 @@ class Gpt():
     def apiCall(self, board_state: str, board_size: int, num_in_row_to_win: int,
                 playerMark: Mark, gptMark: Mark) -> tuple[int, int] | None:
 
-        content_system: str = """You are playing TicTacToe against a user. You shal try to play as perfectly as possible and always
-        make a move within the board.
-        You can only answer in the flollowing format "(X,Y)", where the X and Y are the coordinates of the board placement.
-        The X and Y shal be integers
+        content_system: str = f"""You are playing TicTacToe against a user.
+        You shal try to play as perfectly as possible and always make a move within the board.
+        Try to win by getting {num_in_row_to_win}. If not possibel, stop the user from winning.
+        You can only answer in the following format "(X,Y)", where the X and Y are the coordinates of the board placement.
+        The X and Y shal be integers.
         """
         content_user: str = f"""
         I am {playerMark}, you are {gptMark}. It is your move. The board is {board_size}x{board_size} in size.

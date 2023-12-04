@@ -10,8 +10,11 @@ class Game():
         self.in_row_to_win: int = in_row_to_win
 
     # Return
-    def makeMove(self, xCoordinate: int, yCoordinate: int) -> bool:
-        return self.board.markCell(self.screen, xCoordinate, yCoordinate, self.current_player)
+    def makeMoveCoords(self, xCoordinate: int, yCoordinate: int) -> bool:
+        return self.board.markCellCoordinates(self.screen, xCoordinate, yCoordinate, self.current_player)
+
+    def makeMoveValues(self, x: int, y: int) -> bool:
+        return self.board.markCellValues(self.screen, x, y, self.current_player)
 
     def swapPlayer(self) -> None:
         if self.current_player == Mark.X:

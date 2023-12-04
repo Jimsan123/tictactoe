@@ -49,23 +49,33 @@ class Board():
 
     # Return true if everything went ok
     # Return false if the cell is already marked
-    def markCell(self, screen: pygame.Surface, xCoordinate: int, yCoordinate: int, mark: Mark) -> bool:
+    def markCellCoordinates(self, screen: pygame.Surface, x_coordinate: int,
+                            y_coordinate: int, mark: Mark) -> bool:
         # Find the cell to mark
         for rows in self.cells:
             for cell in rows:
-                if (xCoordinate >= cell.topLeft[0] and xCoordinate < cell.botRight[0] and # [0] will is the X pos
-                    yCoordinate >= cell.topLeft[1] and yCoordinate < cell.botRight[1]): # [1] will is the Y pos
+                if (x_coordinate >= cell.topLeft[0] and x_coordinate < cell.botRight[0] and # [0] will is the X pos
+                    y_coordinate >= cell.topLeft[1] and y_coordinate < cell.botRight[1]): # [1] will is the Y pos
                     if cell.isMarked():
                         print("Already marked")
                         return False
                     cell.mark = mark
-                    # cell.printCorners()
                     print("Mark:", mark)
                     self.drawCell(screen, cell)
                     return True
 
         print("Error: did not find cell to mark")
         return False
+
+    def markCellValues(self, screen: pygame.Surface, x: int, y: int, mark: Mark):
+        if self.cells[x][y].isMarked():
+            print("Already marked")
+            return False
+        else:
+            self.cells[x][y].mark = mark
+            self.drawCell(screen, self.cells[x][y])
+            return True
+
 
     def drawCell(self, screen:pygame.Surface, cell: Cell) -> None:
         if cell.mark == Mark.empty:
