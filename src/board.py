@@ -24,8 +24,9 @@ class Cell():
         self.mark: Mark = mark
 
     def printCorners(self) -> None:
-        print(f"Top left: {self.topLeft}, Top right: {self.topRight} \
-              \nBot left: {self.botLeft}, Bot right: {self.botRight}")
+        print(f"""
+              Top left: {self.topLeft}, Top right: {self.topRight}\n
+              Bot left: {self.botLeft}, Bot right: {self.botRight}""")
 
     def isMarked(self) -> bool:
         return self.mark != Mark.empty
