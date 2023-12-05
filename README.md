@@ -8,7 +8,7 @@ This is a TicTacToe game. It can be scaled to any size wanted (see Configuration
 To play the game, install first some packages
 
 - I have used python `3.11.3` but older ones should work fine.
-- `pip install -r requirements.txt` will dowload and install the required packages
+- `pip install -r requirements.txt` will download and install the required packages
 
 #### OpenAI API key
 To be able to play against the AI model (which you you must), you will need to setup a `API key` in your `PATH` variables. This `API key` must look like this:
