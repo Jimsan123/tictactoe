@@ -16,10 +16,15 @@ def main():
     # Init Pygame
     pygame.init()
 
+    # Config
+    display_size = (900, 900)
+    board_size = 5
+    in_row_to_win = 4
+
     # Init stuff
     pygame.display.set_caption("Tic Tac Toe")
-    main_screen = pygame.display.set_mode((900, 900))
-    game = Game(main_screen, Board((900, 900), 5), 4)
+    main_screen = pygame.display.set_mode(display_size)
+    game = Game(main_screen, Board(display_size, board_size), in_row_to_win)
 
     model: Gpt = Gpt()
     current_player: CurrentPlayerState = CurrentPlayerState.player
