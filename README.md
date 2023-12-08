@@ -13,7 +13,7 @@ To play the game, install first some packages
 #### OpenAI API key
 To be able to play against the AI model (which you you must), you will need to setup a `API key` in your `PATH` variables. This `API key` must look like this:
 ```
-OPENAI_API_KEY: sk-Abcdefg....
+Key name: OPENAI_API_KEY. Key value e.g: sk-Abcdefg....
 ```
 
 #### Configuration
